@@ -1,11 +1,8 @@
 ﻿:Class ALayer
 
-    :Field Public random
-
     ∇ __init__
       :Implements constructor
       :Access Public
-      random←⎕SE.SALT.Load'C:\Users\Mehya\OneDrive\repos\aplML\utils\Random'
       ⎕DF'ALayer'
     ∇
 
@@ -31,7 +28,7 @@
       :EndIf
      
       n_numbers←n_columns×n_neurons
-      random_vector←random.uniform(l_bound r_bound n_numbers)
+      random_vector←utils.random.uniform(l_bound r_bound n_numbers)
       weights←n_columns{⍺ ⍵⍴random_vector}n_neurons
     ∇
     
