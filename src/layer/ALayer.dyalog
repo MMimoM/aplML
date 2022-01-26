@@ -1,0 +1,46 @@
+﻿:Class ALayer
+
+    :Field Public random
+
+    ∇ __init__
+      :Implements constructor
+      :Access Public
+      random←⎕SE.SALT.Load'C:\Users\Mehya\OneDrive\repos\aplML\utils\Random'
+      ⎕DF'ALayer'
+    ∇
+
+    :Section weights
+
+    ∇ weights←getRandomWeights(n_columns n_neurons)
+      :Access Public
+      weights←n_columns{⍺ ⍵⍴?(⍺×⍵)⍴0}n_neurons
+    ∇
+    
+
+    ∇ weights←getWeightsForSigmoidAndTanh(n_columns n_neurons method);l_bound;r_bound;n_numbers;random_vector
+      :Access Public
+      :If 'xavier'≡method
+          r_bound←n_columns*0.5
+          l_bound←-r_bound
+      :ElseIf 'normalized_xavier'≡method
+          r_bound←(6*0.5)÷(n_columns+n_neurons)*0.5
+          l_bound←-r_bound
+      :Else
+          r_bound←1
+          l_bound←-1
+      :EndIf
+     
+      n_numbers←n_columns×n_neurons
+      random_vector←random.uniform(l_bound r_bound n_numbers)
+      weights←n_columns{⍺ ⍵⍴random_vector}n_neurons
+    ∇
+    
+
+    ∇ weights←getWeightsForReLU(n_columns n_neurons)
+      :Access Public
+      weights←n_columns{⍺ ⍵⍴?(⍺×⍵)⍴0}n_neurons
+    ∇
+
+    :EndSection
+
+:EndClass
