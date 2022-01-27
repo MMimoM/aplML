@@ -14,11 +14,12 @@
 
     ∇ forward X
       :Access Public
-      X←1,X
-      output←(X+.×weights)
+      output←X+.×weights
+      output+←(⍴output)⍴(×/⍴output)⍴biases
     ∇
 
 :EndClass
+
 
 
 

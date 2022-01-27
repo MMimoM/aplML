@@ -1,8 +1,11 @@
 ﻿:Class ALayer
+    
+    :Field Public random
 
-    ∇ __init__
+    ∇ __init__ path
       :Implements constructor
       :Access Public
+      random←⎕SE.SALT.Load path,'\aplML\utils\Random'
       ⎕DF'ALayer'
     ∇
 
