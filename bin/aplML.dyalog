@@ -21,6 +21,7 @@
       aplML.activation←⎕NS''
       aplML.activation.Linear←⎕SE.SALT.Load path,'\aplML\src\activation\Linear'
       aplML.activation.ReLU←⎕SE.SALT.Load path,'\aplML\src\activation\ReLU'
+      aplML.activation.Sigmoid←⎕SE.SALT.Load path,'\aplML\src\activation\Sigmoid'
      
       ⍝layer
       aplML.layer←⎕NS''
