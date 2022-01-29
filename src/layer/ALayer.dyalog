@@ -1,5 +1,5 @@
 ﻿:Class ALayer
-    
+
     :Field Public random
 
     ∇ __init__ path
@@ -15,7 +15,7 @@
       :Access Public
       weights←n_columns{⍺ ⍵⍴?(⍺×⍵)⍴0}n_neurons
     ∇
-    
+
 
     ∇ weights←getWeightsForSigmoidAndTanh(n_columns n_neurons method);l_bound;r_bound;n_numbers;random_vector
       :Access Public
@@ -34,11 +34,14 @@
       random_vector←utils.random.uniform(l_bound r_bound n_numbers)
       weights←n_columns{⍺ ⍵⍴random_vector}n_neurons
     ∇
-    
 
-    ∇ weights←getWeightsForReLU(n_columns n_neurons)
+
+    ∇ weights←getWeightsForReLU(n_columns n_neurons);sigma;mu;n_numbers;random_vector
       :Access Public
-      weights←n_columns{⍺ ⍵⍴?(⍺×⍵)⍴0}n_neurons
+      (sigma mu)←((2÷n_columns)*0.5)(0)
+      n_numbers←n_columns×n_neurons
+      random_vector←utils.random.gaussian(mu sigma n_numbers)
+      weights←n_columns{⍺ ⍵⍴random_vector}n_neurons
     ∇
 
     :EndSection

@@ -1,6 +1,6 @@
 ﻿:Class aplML
-    
-    :Field Public path 
+
+    :Field Public path
 
     ∇ __init__ path∆
       :Implements constructor
@@ -22,6 +22,7 @@
       aplML.activation.Linear←⎕SE.SALT.Load path,'\aplML\src\activation\Linear'
       aplML.activation.ReLU←⎕SE.SALT.Load path,'\aplML\src\activation\ReLU'
       aplML.activation.Sigmoid←⎕SE.SALT.Load path,'\aplML\src\activation\Sigmoid'
+      aplML.activation.Softmax←⎕SE.SALT.Load path,'\aplML\src\activation\Softmax'
      
       ⍝layer
       aplML.layer←⎕NS''
@@ -42,6 +43,10 @@
       ⍝probability distributions
       utils.random←⎕SE.SALT.Load path,'\aplML\utils\Random'
       utils.random←⎕NEW utils.random
+     
+      ⍝encoder
+      utils.encoder←⎕SE.SALT.Load path,'\aplML\utils\Encoder'
+      utils.encoder←⎕NEW utils.encoder
     ∇
 
 
