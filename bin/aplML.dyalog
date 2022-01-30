@@ -32,6 +32,12 @@
      
       ⍝loss
       aplML.loss←⎕NS''
+      aplML.loss.CategoricalCrossEntropy←⎕SE.SALT.Load path,'\aplML\src\loss\CategoricalCrossEntropy'
+      aplML.loss.MeanSquare←⎕SE.SALT.Load path,'\aplML\src\loss\MeanSquare'
+
+      ⍝metrics
+      aplML.metrics←⎕SE.SALT.Load path,'\aplML\src\metrics\Metrics'
+      aplML.metrics←⎕NEW aplML.metrics
     ∇
 
 
