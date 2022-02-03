@@ -36,8 +36,12 @@
       aplML.loss.MeanSquare←⎕SE.SALT.Load path,'\aplML\src\loss\MeanSquare'
 
       ⍝metrics
-      aplML.metrics←⎕SE.SALT.Load path,'\aplML\src\metrics\Metrics'
-      aplML.metrics←⎕NEW aplML.metrics
+      aplML.metrics←⎕SE.SALT.Load path,'\aplML\src\processing\Metrics'
+      aplML.metrics←⎕NEW aplML.metrics 
+
+      ⍝dataloader
+      aplML.dataloader←⎕SE.SALT.Load path,'\aplML\src\processing\Dataloader'
+      aplML.dataloader←⎕NEW aplML.dataloader
     ∇
 
 

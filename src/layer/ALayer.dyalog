@@ -4,7 +4,7 @@
 
     ∇ __init__ path
       :Implements constructor
-      :Access Public
+      :Access Private
       random←⎕SE.SALT.Load path,'\aplML\utils\Random'
       random←⎕NEW random
       ⎕DF'ALayer'
