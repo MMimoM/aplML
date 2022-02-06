@@ -1,8 +1,8 @@
 ﻿:Class ReLU
 
-    :Field Public output
-    :Field Public input
-    :Field Public dinput 
+    :Field Public output←⍬
+    :Field Public input←⍬
+    :Field Public dinput←⍬
 
     ∇ forward X
       :Access Public
@@ -12,10 +12,6 @@
 
     ∇ backward ∆dinput
       dinput←∆dinput×input>0
-    ∇  
+    ∇
 
 :EndClass
-
-
-
-

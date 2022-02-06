@@ -1,11 +1,17 @@
-﻿:Class Selu
+﻿:Class ELU
 
-    :Field Public output
+    :Field Public output←⍬
+    :Field Public input←⍬
+    :Field Public dinput←⍬
 
     ∇ forward X
       :Access Public
-      output←⍬
+      input←X
+      output←(X×X>0)-(1-*X)×X≤0
+    ∇
+
+    ∇ backward ∆dinput
+      dinput←∆dinput×((*input)*input≤0)
     ∇
 
 :EndClass
-

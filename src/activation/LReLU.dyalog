@@ -1,10 +1,17 @@
-﻿:Class ReLU
+﻿:Class LReLU
 
-    :Field Public output
+    :Field Public output←⍬
+    :Field Public input←⍬
+    :Field Public dinput←⍬
 
     ∇ forward X
       :Access Public
-      output←0⌈X
+      input←X
+      output←X×0.01*X≤0
+    ∇
+
+    ∇ backward ∆dinput
+      dinput←∆dinput×(0.01*input≤0)
     ∇
 
 :EndClass

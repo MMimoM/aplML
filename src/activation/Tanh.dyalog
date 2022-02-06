@@ -1,4 +1,4 @@
-﻿:Class Linear
+﻿:Class Tanh
 
     :Field Public output←⍬
     :Field Public input←⍬
@@ -7,11 +7,11 @@
     ∇ forward X
       :Access Public
       input←X
-      output←X
+      output←7○X
     ∇
 
     ∇ backward ∆dinput
-      dinput←∆dinput
+      dinput←∆dinput×({(1+⍵)×1-⍵}(7○input))
     ∇
 
 :EndClass
