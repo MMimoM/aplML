@@ -23,11 +23,15 @@
       aplML.activation.ReLU←⎕SE.SALT.Load path,'\aplML\src\activation\ReLU'
       aplML.activation.Sigmoid←⎕SE.SALT.Load path,'\aplML\src\activation\Sigmoid'
       aplML.activation.Softmax←⎕SE.SALT.Load path,'\aplML\src\activation\Softmax'
+      aplML.activation.LReLU←⎕SE.SALT.Load path,'\aplML\src\activation\LReLU'
+      aplML.activation.Exponential←⎕SE.SALT.Load path,'\aplML\src\activation\Exponential'
+      aplML.activation.ELU←⎕SE.SALT.Load path,'\aplML\src\activation\ELU'
+      aplML.activation.Tanh←⎕SE.SALT.Load path,'\aplML\src\activation\Tanh'
      
       ⍝layer
       aplML.layer←⎕NS''
       aplML.layer.ALayer←⎕SE.SALT.Load path,'\aplML\src\layer\ALayer'
-      aplML.layer.ALayer←⎕NEW aplML.layer.ALayer path
+      aplML.layer.ALayer←⎕NEW aplML.layer.ALayer
       aplML.layer.Linear←⎕SE.SALT.Load path,'\aplML\src\layer\Linear'
      
       ⍝loss

@@ -1,12 +1,8 @@
 ﻿:Class ALayer
 
-    :Field Public random
-
-    ∇ __init__ path
+    ∇ __init__ 
       :Implements constructor
-      :Access Private
-      random←⎕SE.SALT.Load path,'\aplML\utils\Random'
-      random←⎕NEW random
+      :Access Public
       ⎕DF'ALayer'
     ∇
 
@@ -32,7 +28,7 @@
       :EndIf
      
       n_numbers←n_columns×n_neurons
-      random_vector←random.uniform(l_bound r_bound n_numbers)
+      random_vector←utils.random.uniform(l_bound r_bound n_numbers)
       weights←n_columns{⍺ ⍵⍴random_vector}n_neurons
     ∇
 
@@ -41,7 +37,7 @@
       :Access Public
       (sigma mu)←((2÷n_columns)*0.5)(0)
       n_numbers←n_columns×n_neurons
-      random_vector←random.gaussian(mu sigma n_numbers)
+      random_vector←utils.random.gaussian(mu sigma n_numbers)
       weights←n_columns{⍺ ⍵⍴random_vector}n_neurons
     ∇
 

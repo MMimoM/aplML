@@ -12,7 +12,7 @@
 
     ∇ __init__(n_columns n_neurons)
       :Implements constructor
-      :Access Private
+      :Access Public
       weights←getRandomWeights(n_columns n_neurons)
       biases←?n_neurons⍴0
       ⎕DF'Linear'
