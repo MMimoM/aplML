@@ -1,0 +1,3 @@
+﻿ identityMatrix←{
+     diagonalize(⍵⍴1)
+ }

@@ -1,0 +1,4 @@
+﻿ randomSampler←{
+     ⍝⍵←Datamatrix
+     ⍵[(↑⍴⍵)?(↑⍴⍵);]
+ }
