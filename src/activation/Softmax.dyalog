@@ -11,7 +11,7 @@
       output←{⍵÷(⍉(⍴⍉⍵)⍴(×/⍴⍵)⍴+/⍵)}exp_val
     ∇
 
-    ∇ backward dinput∆;diagonalized_rows
+    ∇ backward dinput∆
       :Access Public
       dinput←(⍴output)⍴⊃{((#.Utils.diagonalize ⍵⌷output)-⍵⌷output∘.×⍵⌷output)+.×(⍪⍵⌷dinput∆)}¨⍳≢output
     ∇
