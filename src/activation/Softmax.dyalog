@@ -11,11 +11,11 @@
       output←{⍵÷(⍉(⍴⍉⍵)⍴(×/⍴⍵)⍴+/⍵)}exp_val
     ∇
 
-    ∇ backward dinput;diagonalized_rows
+    ∇ backward dinput∆;diagonalized_rows
       :Access Public
-      jacobian_matrices←{(utils.diagonalize output[⍵;])-(output[⍵;]∘.×output[⍵;])}/⍳↑⍴output
-
+      dinput←(⍴output)⍴⊃{((#.Utils.diagonalize ⍵⌷output)-⍵⌷output∘.×⍵⌷output)+.×(⍪⍵⌷dinput∆)}¨⍳≢output
     ∇
 
 :EndClass
+
 

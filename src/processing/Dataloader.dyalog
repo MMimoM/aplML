@@ -16,7 +16,7 @@
           y←utils.encoder.oneHot y
       :EndIf
      
-      number_of_splits←⌊0.5+batch_size÷⍨↑⍴X
+      number_of_splits←#.Utis.round batch_size÷⍨↑⍴X
       batch_data←(number_of_splits,batch_size,1↓⍴X)⍴X
       batch_labels←(number_of_splits,batch_size,1↓⍴y)⍴y
      
