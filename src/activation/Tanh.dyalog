@@ -10,7 +10,8 @@
       output←7○X
     ∇
 
-    ∇ backward ∆dinput
+    ∇ backward ∆dinput 
+      :Access Public
       dinput←∆dinput×({(1+⍵)×1-⍵}(7○input))
     ∇
 

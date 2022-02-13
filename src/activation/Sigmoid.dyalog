@@ -11,6 +11,7 @@
     ∇
 
     ∇ backward ∆dinput
+      :Access Public
       dinput←∆dinput×({⍵×1-⍵}(÷1+*-input))
     ∇
 

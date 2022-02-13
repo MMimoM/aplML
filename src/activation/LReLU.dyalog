@@ -11,6 +11,7 @@
     ∇
 
     ∇ backward ∆dinput
+      :Access Public
       dinput←∆dinput×(0.01*input≤0)
     ∇
 

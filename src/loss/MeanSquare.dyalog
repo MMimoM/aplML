@@ -8,8 +8,9 @@
     ∇
     
     ∇ backward(dinput∆ ytrue);shape
+      :Access Public
       shape←⍴dinput∆
-      dinput←(-2×(ytrue-dinput∆)÷shape[1])÷shape[0]
+      dinput←(-2×((⍪ytrue)-dinput∆)÷shape[1])÷shape[0]
     ∇
     
 :EndClass

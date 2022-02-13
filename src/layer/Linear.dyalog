@@ -23,15 +23,16 @@
       :Access Public
       input←X
 
-      output←X+.×⍉weights
+      output←X+.×weights
       output+←biases{⍺⍴⍨⍴⍵}output
     ∇
     
 
     ∇ backward ∆dinput
+      :Access Public
       dweights←(⍉input)+.×∆dinput
-      dbiases = +/⍉∆dinput
-      dinput = ∆dinput+.×⍉weights
+      dbiases←+/⍉∆dinput
+      dinput←∆dinput+.×⍉weights
     ∇
     
 :EndClass

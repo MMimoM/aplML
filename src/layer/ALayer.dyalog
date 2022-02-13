@@ -2,11 +2,9 @@
     
     :Field Public random
 
-    ∇ __init__ path∆ 
+    ∇ __init__ 
       :Implements constructor
       :Access Public
-      random←⎕SE.SALT.Load path∆,'\aplML\src\processing\Random'
-      random←⎕NEW random
       ⎕DF'ALayer'
     ∇
 
@@ -14,7 +12,7 @@
 
     ∇ weights←getRandomWeights(n_columns n_neurons)
       :Access Public
-      weights←n_neurons{⍺ ⍵⍴?(⍺×⍵)⍴0}n_columns
+      weights←n_columns{⍺ ⍵⍴?(⍺×⍵)⍴0}n_neurons
     ∇
 
 
@@ -32,8 +30,8 @@
       :EndIf
      
       n_numbers←n_columns×n_neurons
-      random_vector←##.random.uniform(l_bound r_bound n_numbers)
-      weights←n_neurons{⍺ ⍵⍴random_vector}n_columns
+      random_vector←#.aplML.random.uniform(l_bound r_bound n_numbers)
+      weights←n_columns{⍺ ⍵⍴random_vector}n_neurons
     ∇
 
 
@@ -41,8 +39,8 @@
       :Access Public
       (sigma mu)←((2÷n_columns)*0.5)(0)
       n_numbers←n_columns×n_neurons
-      random_vector←##.random.gaussian(mu sigma n_numbers)
-      weights←n_neurons{⍺ ⍵⍴random_vector}n_columns
+      random_vector←#.aplML.random.gaussian(mu sigma n_numbers)
+      weights←n_columns{⍺ ⍵⍴random_vector}n_neurons
     ∇
 
     :EndSection

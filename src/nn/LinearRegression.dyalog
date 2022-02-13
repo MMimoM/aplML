@@ -11,19 +11,19 @@
     ∇ __init__(X∆ y∆)
       :Implements constructor
       :Access Public
-      initialization
       input←X∆
       ytrue←y∆
+      initialization
       ⎕DF'Module'
     ∇
 
 
     ∇ initialization
       :Access Private
-      linear_layer←⎕NEW ##.layer.Linear((1↓⍴input),1)
-      linear_activation←⎕NEW ##.activation.Linear
-      sgd_optimizer←⎕NEW ##.optimizer.SGD(0.0001 0)
-      ms_loss←⎕NEW ##.loss.MeanSquare
+      linear_layer←⎕NEW #.aplML.layer.Linear((1↓⍴input),1)
+      linear_activation←⎕NEW #.aplML.activation.Linear
+      sgd_optimizer←⎕NEW #.aplML.optimizer.SGD(0.0001 0)
+      ms_loss←⎕NEW #.aplML.loss.MeanSquare
     ∇
 
 
@@ -41,12 +41,14 @@
     ∇
 
 
-    ∇ train input∆
+    ∇ r←train input∆
       :Access Private
       forward input∆
       backward
       sgd_optimizer.step linear_layer
+      r←input∆
     ∇
+
 
     ∇ fit iterations
       :Access Public

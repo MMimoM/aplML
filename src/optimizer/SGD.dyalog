@@ -25,6 +25,7 @@
 
 
     ∇ updateStepSize
+      :Access Public
       :If decay>0
           step_size×←÷1+decay×iteration
           iteration+←1

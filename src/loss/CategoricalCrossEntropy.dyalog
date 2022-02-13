@@ -8,6 +8,7 @@
     ∇
 
     ∇ backward(dinput∆ ytrue);number_of_datapoints
+      :Access Public
       number_of_datapoints←↑⍴dinput∆
       dinput←(-ytrue÷dinput∆)÷number_of_datapoints
     ∇
