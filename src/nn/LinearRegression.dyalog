@@ -50,9 +50,9 @@
     ∇
 
 
-    ∇ fit iterations
+    ∇ {r}←fit iterations
       :Access Public
-      (train⍣iterations)input
+      r←(train⍣iterations)input
     ∇
 
 

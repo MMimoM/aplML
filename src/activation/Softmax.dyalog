@@ -11,11 +11,16 @@
       output←{⍵÷(⍉(⍴⍉⍵)⍴(×/⍴⍵)⍴+/⍵)}exp_val
     ∇
 
+    
     ∇ backward dinput∆
       :Access Public
-      dinput←(⍴output)⍴⊃{((#.Utils.diagonalize ⍵⌷output)-⍵⌷output∘.×⍵⌷output)+.×(⍪⍵⌷dinput∆)}¨⍳≢output
+      ⍝ The following Code is a faster way to do:
+      ⍝ (⍴output)⍴⊃{((#.Utils.diagonalize ⍵⌷output)-⍵⌷output∘.×⍵⌷output)+.×(⍪⍵⌷dinput∆)}¨⍳≢output
+      dinput←(⍴output)⍴dinput∆({((#.Utils.diagonalize ⍵)-⍵∘.×⍵)+.×(⍪⍺)}⍤1)output
     ∇
 
 :EndClass
+
+
 
 
