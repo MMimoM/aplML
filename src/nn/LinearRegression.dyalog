@@ -49,11 +49,13 @@
     ∇
 
     ∇ fit iterations
+      :Access Public
       (train⍣iterations)input
     ∇
 
 
     ∇ predict X_test
+      :Access Public
       ⍬
     ∇
 

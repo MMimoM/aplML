@@ -12,6 +12,7 @@
       :Access Public
       step_size←step_size∆
       decay←decay∆
+      iteration←1
       ⎕DF'SGD'
     ∇
 
