@@ -21,7 +21,6 @@
     ∇ initialization
       :Access Private
       linear_layer←⎕NEW #.aplML.layer.Linear((1↓⍴input),1)
-      linear_activation←⎕NEW #.aplML.activation.Linear
       sgd_optimizer←⎕NEW #.aplML.optimizer.SGD(0.0001 0)
       ms_loss←⎕NEW #.aplML.loss.MeanSquare
     ∇
@@ -30,35 +29,49 @@
     ∇ forward input∆
       :Access Private
       linear_layer.forward input∆
-      linear_activation.forward linear_layer.output
     ∇
 
 
     ∇ backward
       :Access Private
-      ms_loss.backward(linear_activation.output ytrue)
+      ms_loss.backward(linear_layer.output ytrue)
       linear_layer.backward ms_loss.dinput
     ∇
 
 
-    ∇ r←train input∆
+    ∇ r←train(input∆ verbose)
       :Access Private
       forward input∆
       backward
       sgd_optimizer.step linear_layer
-      r←input∆
+      :If 1=verbose
+          evaluate
+      :EndIf
+      r←(input∆ verbose)
     ∇
 
 
-    ∇ {r}←fit iterations
+    ∇ {r}←fit(iterations verbose)
       :Access Public
-      r←(train⍣iterations)input
+      r←(train⍣iterations)(input verbose)
     ∇
 
 
-    ∇ predict X_test
+    ∇ r←evaluate;ypred;loss;acc
+      ypred←predict input
+      loss←ms_loss.calculate(ypred ytrue)
+      r←⊆('MSE: 'loss)
+    ∇
+
+
+    ∇ r←predict X_test;ypred
       :Access Public
-      ⍬
+      ypred←linear_layer.calculate X_test
+      :If 1∊⍴ypred
+          r←∊ypred
+      :Else
+          r←ypred
+      :EndIf
     ∇
 
 :EndClass

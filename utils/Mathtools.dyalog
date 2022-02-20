@@ -1,4 +1,4 @@
-﻿:Namespace Utils
+﻿:Namespace Mathtools
 
       ⍝ Negative Zahlen werden nach ihrem Betrag gerundet, bei einer 5 also weg von null (engl: Away from Zero)
       ⍝       ∆round 1.49 1.50 1.51 ¯1.49 ¯1.50 ¯1.51
@@ -29,6 +29,22 @@
       ⍝ 0 0 1
       ∆identityMatrix←{
           ⍵ ⍵⍴(⍵*2)⍴1,⍵⍴0
+      }
+      
+      
+      ⍝      ∆mean 1 2 3
+      ⍝ (1+2+3)÷3=2
+      ∆mean←{
+          +/⍵÷⍴⍵
+      }
+      
+      ⍝     ∆std 1 4 4
+      ⍝ mean←2 ⋄ 1.5=0.5÷⍨(1-2)+(4-2)+(4-2)
+      ∆std←{
+         mean←∆mean ⍵
+         square←(⍵-mean)*2
+         (∆mean square)*0.5 
       }     
 
 :EndNamespace
+

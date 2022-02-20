@@ -1,6 +1,5 @@
 ﻿:Namespace DataProcessing
 ⍝A Namespace for processing Datasets
-    
 
     ∇ r←randomSampler matrix
       r←matrix[(↑⍴matrix)?(↑⍴matrix);]
@@ -10,7 +9,7 @@
     ∇ r←trainTestSplit(X y split_size);Xy;split_point;X_train;X_test;y_train;y_test
       Xy←X,y
       Xy←randomSampler Xy
-      split_point←#.Utils.round split_size×↑⍴X
+      split_point←#.Utils.Mathtools.∆round split_size×↑⍴X
      
       X_train←Xy[⍳split_point;⍳1↓⍴X]
       X_test←Xy[split_point↓⍳↑⍴X;⍳1↓⍴X]
@@ -23,12 +22,12 @@
 
 
     ∇ r←transform(X y batch_size sampler);number_of_splits;rv;batch_data;batch_labels
-     
+
       :If 2≠≢⍴y
-          y←#.aplML.Encoder.oneHot y
+          y←#.Utils.Encoder.oneHot y
       :EndIf
      
-      number_of_splits←#.Utils.round batch_size÷⍨↑⍴X
+      number_of_splits←#.Utils.Mathtools.∆round batch_size÷⍨↑⍴X
       batch_data←(number_of_splits,batch_size,1↓⍴X)⍴X
       batch_labels←(number_of_splits,batch_size,1↓⍴y)⍴y
      

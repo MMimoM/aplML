@@ -1,5 +1,5 @@
 ﻿:Class ALayer
-    
+
     :Field Public random
 
     ∇ __init__ 
@@ -30,7 +30,7 @@
       :EndIf
      
       n_numbers←n_columns×n_neurons
-      random_vector←#.aplML.random.uniform(l_bound r_bound n_numbers)
+      random_vector←#.Utils.Random.uniform(l_bound r_bound n_numbers)
       weights←n_columns{⍺ ⍵⍴random_vector}n_neurons
     ∇
 
@@ -39,7 +39,7 @@
       :Access Public
       (sigma mu)←((2÷n_columns)*0.5)(0)
       n_numbers←n_columns×n_neurons
-      random_vector←#.aplML.random.gaussian(mu sigma n_numbers)
+      random_vector←#.Utils.Random.gaussian(mu sigma n_numbers)
       weights←n_columns{⍺ ⍵⍴random_vector}n_neurons
     ∇
 
