@@ -1,6 +1,6 @@
 ﻿:Namespace Metrics
 
-    ∇ r←accuracy(ytrue ypred);deviation
+    ∇ r←accuracy(ypred ytrue);deviation
       :If 1=⍴⍴ypred
       :Orif 1∊⍴ypred
           deviation←#.Utils.Mathtools.∆std ytrue

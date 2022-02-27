@@ -1,8 +1,8 @@
 ﻿:Class Exponential
 
-    :Field Public output←⍬
-    :Field Public input←⍬
-    :Field Public dinput←⍬
+    :Field Public output
+    :Field Public input
+    :Field Public dinput
 
     ∇ forward X
       :Access Public
@@ -10,9 +10,14 @@
       output←*X
     ∇
 
+
     ∇ backward ∆dinput
       :Access Public
       dinput←∆dinput×(*input)
+    ∇
+
+    ∇ r←calculate X
+      r←*X
     ∇
 
 :EndClass

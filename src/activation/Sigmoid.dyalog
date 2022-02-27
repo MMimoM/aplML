@@ -1,8 +1,8 @@
 ﻿:Class Sigmoid
 
-    :Field Public output←⍬
-    :Field Public input←⍬
-    :Field Public dinput←⍬
+    :Field Public output
+    :Field Public input
+    :Field Public dinput
 
     ∇ forward X
       :Access Public
@@ -10,10 +10,15 @@
       output←÷1+*-X
     ∇
 
+
     ∇ backward ∆dinput
       :Access Public
       dinput←∆dinput×({⍵×1-⍵}(÷1+*-input))
     ∇
+    
+
+    ∇ r←calculate X
+      r←÷1+*-X
+    ∇
 
 :EndClass
-

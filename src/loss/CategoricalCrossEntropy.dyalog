@@ -2,7 +2,7 @@
 
     :Field Public dinput←⍬
 
-    ∇ r←calculate(ytrue ypred)
+    ∇ r←calculate(ypred ytrue)
       :Access Public
       r←ytrue{(+/-⍺×⍟⍵)÷↑⍴⍺}ypred
     ∇
