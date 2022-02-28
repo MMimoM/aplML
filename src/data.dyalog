@@ -1,13 +1,13 @@
 ﻿:Namespace data
 ⍝A Namespace for handling Data
 
-    ∇ r←frame(data∆ colnames∆)
-      r←⎕NEW #.Utils.DataFrame(data∆ colnames∆)
+    ∇ r←frame args
+      r←⎕NEW #.Utils.DataFrame args
     ∇
 
 
-    ∇ r←series(data∆ colname∆)
-      r←⎕NEW #.Utils.DataSeries(data∆ colname∆)
+    ∇ r←series args
+      r←⎕NEW #.Utils.DataSeries args
     ∇
 
 
@@ -66,7 +66,7 @@
         :EndSection
 
     :EndNamespace
-    
+
 
     :Namespace encoding
     ⍝A Namespace for Encoding Categorical Datacolumns
