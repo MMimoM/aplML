@@ -10,7 +10,7 @@
     ∇ make data∆
       :Implements Constructor
       :Access Public
-      ⎕IO←0
+      (⎕IO ⎕ML)←(0 3)
       m_data←1↓data∆
       m_colnames←⊆data∆[0;]
       m_ncol←⍴⊆m_colnames
@@ -73,7 +73,21 @@
       :EndIf
      
       cols∆←__set_cindex__ cols∆
-      r←m_data[rows∆;cols∆]
+      r←m_data[rows∆+1;cols∆]
+    ∇
+
+
+    ∇ {r}←{conditions∆}copy cols∆;rows∆
+      :Access Public
+     
+      :If 900⌶⍬
+          rows∆←m_nrow
+      :Else
+          rows∆←__where__ conditions∆
+      :EndIf
+     
+      cols∆←__set_cindex__ cols∆
+      r←data.frame((cols∆,[0]m_data)[rows∆+1;cols∆])
     ∇
 
 
@@ -87,7 +101,7 @@
       :EndIf
      
       cols∆←__set_cindex__ cols∆
-      ⍕(m_colnames,[0]m_data)[rows∆+1;cols∆]
+      ⍕(cols∆,[0]m_data)[rows∆+1;cols∆]
     ∇
 
 
@@ -156,56 +170,94 @@
 
 
     ∇ r←__where__ condition
-      :Access Public
+      :Access Private
       r←condition
       :If __is_char__ r
           r←__betw_bracks__ r
-          r←__transform_conditions__ r
+          r←__transform_conditions__¨r
+          r←⍸⍎(⍕{∊⍵}¨r)
       :EndIf
-      r←⍬
     ∇
 
 
-    ∇ r←__transform_conditions__ x;ors;ands;i;condition;col;conditions;attribute;logical_operator
+    ∇ r←__transform_conditions__ x;ors∆;ands∆;conditions∆;col∆;attribute∆;operator∆;shortcut∆;iterator;condition
       :Access Private
-      ors←__or_conditions__ x
-      ands←__and_conditions__ x
      
-      conditions←⍬
-      :For i :In ⍳≢ors
-          condition←' '(≠⊆⊢)∊ors[i]
-          col←cindex condition
-          attribute←__get_attribute__ col condition
-          logical_operator←__get_logical_operator__ condition
-          :If __is_char__⊃attribute
-              r←⍬
+      :If 1=⍴x
+          r←x
+          :Return
+      :EndIf
+     
+      ors∆←__or_conditions__ x
+      ands∆←__and_conditions__ x
+      conditions∆←ands∆
+     
+      shortcut∆←'∧'
+      :If 1≠≢ors∆
+          shortcut∆←'∨'
+          conditions∆←ors∆
+      :EndIf
+     
+      iterator←0
+      :For condition :In conditions∆
+          iterator+←1
+          condition←' '(≠⊆⊢)∊condition
+          col∆←cindex condition
+          attribute∆←__get_attribute__ col∆ condition
+          operator∆←__get_logical_operator__ condition
+          :If 1=iterator
+              r←__get_boolean_from_condition__ col∆ attribute∆ operator∆
+          :Else
+              r←r(⍎shortcut∆)(__get_boolean_from_condition__ col∆ attribute∆ operator∆)
           :EndIf
       :EndFor
-      r←⍬
+    ∇
+
+
+    ∇ r←__get_boolean_from_condition__(col∆ attribute∆ operator∆)
+      :Access Private
+      :Select ∊(__is_char__ attribute∆)(operator∆)
+      :Case (1 '=')
+          r←(⊆attribute∆)⍷m_data[;col∆]
+      :Case (1 '≠')
+          r←~(⊆attribute∆)⍷m_data[;col∆]
+      :CaseList (0 '=')(0 '≠')(0 '≤')(0 '<')(0 '>')(0 '≥')
+          r←⍎('m_data[;',(⍕col∆),']',(⍕operator∆),(⍕attribute∆))
+      :CaseList (0 '⌈')(0 '⌊')
+          r←(⍎operator∆)m_data[;col∆]
+          r←r⍷m_data[;col∆]
+      :Else
+          r←⍬
+      :EndSelect
     ∇
 
 
     ∇ r←__get_attribute__(col condition)
       :Access Private
       r←{u←,(unique col) ⋄ u[(∊u⍳(⊆⍵))~≢u]}condition
+      :If ⍬≡r
+          r←('[0-9]+'⎕S'\0')condition
+          r←⍎(⍕r)
+      :EndIf
     ∇
 
 
-    ∇ r←__get_logical_operator__ condition
+    ∇ r←__get_logical_operator__ condition;operator
       :Access Private
-      r←{lo←⊆'=' '≠' '≤' '<' '>' '≥' ⋄ lo[(∊lo⍳(⊆⍵))~≢lo]}condition
+      operator←(' '⎕R'')'= ' '≠ ' '≤ ' '< ' '> ' '≥ ' '⌈ ' '⌊'
+      r←{operator[(∊operator⍳(⊆⍵))~≢operator]}condition
     ∇
 
 
     ∇ r←__or_conditions__ x
       :Access Private
-      r←'v'{⎕ML←3 ⋄ ⍺←↑,⍵ ⋄ (~⍵∊⍺)⊂,⍵}(('or'⎕R'v')x)
+      r←'v'{⍺←↑,⍵ ⋄ (~⍵∊⍺)⊂,⍵}(('or'⎕R'v')x)
     ∇
 
 
     ∇ r←__and_conditions__ x
       :Access Private
-      r←'∧'{⎕ML←3 ⋄ ⍺←↑,⍵ ⋄ (~⍵∊⍺)⊂,⍵}(('and'⎕R'∧')x)
+      r←'∧'{⍺←↑,⍵ ⋄ (~⍵∊⍺)⊂,⍵}(('and'⎕R'∧')x)
     ∇
 
 
@@ -220,6 +272,7 @@
               r,←⊆(' '⎕R'')x[(posr[i]+1)↓⍳posl[i+1]]
           :EndIf
       :EndFor
+      r←('or'⎕R'v')('and'⎕R'∧')r
     ∇
 
 
