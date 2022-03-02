@@ -65,56 +65,115 @@
 
     ∇ {r}←{conditions∆}get cols∆;rows∆
       :Access Public
+      cols∆←__set_cindex__ cols∆
      
       :If 900⌶⍬
-          rows∆←m_nrow
+          rows∆←⍳m_nrow
       :Else
-          rows∆←__where__ conditions∆
+          :If __is_boolean__ conditions∆
+              rows∆←⍸conditions∆
+          :ElseIf ⎕NULL∊conditions∆
+              :If (⊂'not')∊conditions∆
+                  rows∆←⍸~∨/(⎕NULL≡¨m_data[;cols∆])
+              :Else
+                  rows∆←⍸∨/(⎕NULL≡¨m_data[;cols∆])
+              :EndIf
+          :Else
+              rows∆←__where__ conditions∆
+              :If ⎕NULL∊rows∆
+                  ⎕NULL
+                  :Return
+              :EndIf
+          :EndIf
       :EndIf
      
-      cols∆←__set_cindex__ cols∆
-      r←m_data[rows∆+1;cols∆]
+      r←m_data[rows∆;cols∆]
     ∇
 
 
-    ∇ {r}←{conditions∆}copy cols∆;rows∆
+    ∇ {r}←{conditions∆}copy cols∆;rows∆;operator;temp_data
       :Access Public
+      cols∆←__set_cindex__ cols∆
      
       :If 900⌶⍬
-          rows∆←m_nrow
+          rows∆←⍳m_nrow
       :Else
-          rows∆←__where__ conditions∆
+          :If __is_boolean__ conditions∆
+              rows∆←⍸conditions∆
+          :ElseIf ⎕NULL∊conditions∆
+              :If (⊂'not')∊conditions∆
+                  rows∆←⍸~∨/(⎕NULL≡¨m_data[;cols∆])
+              :Else
+                  rows∆←⍸∨/(⎕NULL≡¨m_data[;cols∆])
+              :EndIf
+          :Else
+              rows∆←__where__ conditions∆
+              :If ⎕NULL∊rows∆
+                  ⎕NULL
+                  :Return
+              :EndIf
+          :EndIf
       :EndIf
      
-      cols∆←__set_cindex__ cols∆
-      r←data.frame((cols∆,[0]m_data)[rows∆+1;cols∆])
+      r←data.frame(m_colnames[cols∆],[0]m_data[rows∆;cols∆])
     ∇
 
 
     ∇ {conditions∆}show cols∆;rows∆
       :Access Public
+      cols∆←__set_cindex__ cols∆
      
       :If 900⌶⍬
-          rows∆←m_nrow
+          rows∆←⍳m_nrow
       :Else
-          rows∆←__where__ conditions∆
+          :If __is_boolean__ conditions∆
+              rows∆←⍸conditions∆
+          :ElseIf ⎕NULL∊conditions∆
+              :If (⊂'not')∊conditions∆
+                  rows∆←⍸~∨/(⎕NULL≡¨m_data[;cols∆])
+              :Else
+                  rows∆←⍸∨/(⎕NULL≡¨m_data[;cols∆])
+              :EndIf
+          :Else
+              rows∆←__where__ conditions∆
+              :If ⎕NULL∊rows∆
+                  ⎕NULL
+                  :Return
+              :EndIf
+          :EndIf
       :EndIf
      
-      cols∆←__set_cindex__ cols∆
-      ⍕(cols∆,[0]m_data)[rows∆+1;cols∆]
+      ⍕(m_colnames[cols∆],[0]m_data[rows∆;cols∆])
     ∇
 
 
-    ∇ {conditions∆}set(cols∆ values);rows∆
+    ∇ {conditions∆}set(cols∆ values);rows∆;col∆;operator
       :Access Public
+      cols∆←__set_cindex__ cols∆
      
       :If 900⌶⍬
-          rows∆←m_nrow
+          rows∆←⍳m_nrow
       :Else
-          rows∆←__where__ conditions∆
+          :If __is_boolean__ conditions∆
+              rows∆←⍸conditions∆
+          :ElseIf ⎕NULL∊conditions∆
+              operator←'≡'
+              :If (⊂'not')∊conditions∆
+                  operator←'≢'
+              :EndIf
+              :For col∆ :In cols∆
+                  m_data[⎕NULL(⍎operator)¨m_data[;col∆];col∆]←values
+              :EndFor
+              :Return
+          :Else
+              rows∆←__where__ conditions∆
+              :If ⎕NULL∊rows∆
+                  ⎕NULL
+                  :Return
+              :EndIf
+          :EndIf
       :EndIf
      
-      cols∆←__set_cindex__ cols∆
       m_data[rows∆;cols∆]←values
     ∇
 
@@ -165,7 +224,14 @@
           colnames∆←m_colnames
       :EndIf
      
-      r←⍬
+      r←condition copy colnames∆
+    ∇
+
+
+    ∇ r←isNull cols∆
+      :Access Public
+      cols∆←cindex cols∆
+      r←⎕NULL∊m_data[;cols∆]
     ∇
 
 
@@ -175,7 +241,11 @@
       :If __is_char__ r
           r←__betw_bracks__ r
           r←__transform_conditions__¨r
-          r←⍸⍎(⍕{∊⍵}¨r)
+          :If ⎕NULL∊r
+              r←⎕NULL
+          :Else
+              r←⍸⍎(⍕{∊⍵}¨r)
+          :EndIf
       :EndIf
     ∇
 
@@ -222,10 +292,18 @@
       :Case (1 '≠')
           r←~(⊆attribute∆)⍷m_data[;col∆]
       :CaseList (0 '=')(0 '≠')(0 '≤')(0 '<')(0 '>')(0 '≥')
-          r←⍎('m_data[;',(⍕col∆),']',(⍕operator∆),(⍕attribute∆))
+          :If isNULL col∆
+              r←⎕NULL
+          :Else
+              r←⍎('m_data[;',(⍕col∆),']',(⍕operator∆),(⍕attribute∆))
+          :EndIf
       :CaseList (0 '⌈')(0 '⌊')
-          r←(⍎operator∆)m_data[;col∆]
-          r←r⍷m_data[;col∆]
+          :If isNULL col∆
+              r←⎕NULL
+          :Else
+              r←(⍎operator∆)/m_data[;col∆]
+              r←r⍷m_data[;col∆]
+          :EndIf
       :Else
           r←⍬
       :EndSelect
@@ -280,6 +358,11 @@
       :Access Private
      
       r←0∊{10|⎕DR ⍵}¨x
+    ∇
+
+
+    ∇ r←__is_boolean__ x
+      r←11∊⎕DR x
     ∇
 
 
