@@ -1,24 +1,31 @@
 ﻿:Class LReLU
 
-    :Field Public output
-    :Field Public input
-    :Field Public dinput
+    :Field Private m_input
 
-    ∇ forward X
+    ∇ __init__
+      :Implements constructor
       :Access Public
-      input←X
-      output←X×0.01*X≤0
+      (⎕IO ⎕ML)←(0 3)
+      ⎕DF'LReLU'
+    ∇
+    
+
+    ∇ {r}←forward input∆
+      :Access Public
+      m_input←input∆
+      r←input∆×0.01*input∆≤0
     ∇
 
 
-    ∇ backward ∆dinput
+    ∇ {r}←backward ∆dinput
       :Access Public
-      dinput←∆dinput×(0.01*input≤0)
+      r←∆dinput×(0.01*m_input≤0)
     ∇
 
 
-    ∇ r←calculate X
-      r←X×0.01*X≤0
+    ∇ {r}←calculate input∆
+      :Access Public
+      r←input∆×0.01*input∆≤0
     ∇
 
 :EndClass

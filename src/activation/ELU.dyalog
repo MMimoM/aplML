@@ -1,24 +1,31 @@
 ﻿:Class ELU
 
-    :Field Public output
-    :Field Public input
-    :Field Public dinput
+    :Field Private m_input
 
-    ∇ forward X
+    ∇ __init__
+      :Implements constructor
       :Access Public
-      input←X
-      output←(X×X>0)-(1-*X)×X≤0
+      (⎕IO ⎕ML)←(0 3)
+      ⎕DF'ELU'
     ∇
-    
 
-    ∇ backward ∆dinput
+
+    ∇ {r}←forward input∆
       :Access Public
-      dinput←∆dinput×((*input)*input≤0)
+      m_input←input∆
+      r←(input∆×input∆>0)-(1-*input∆)×input∆≤0
     ∇
-    
-    
-    ∇ r←calculate X
-      r←(X×X>0)-(1-*X)×X≤0
+
+
+    ∇ {r}←backward dinput∆
+      :Access Public
+      r←dinput∆×((*m_input)*m_input≤0)
+    ∇
+
+
+    ∇ {r}←calculate input∆
+      :Access Public
+      r←(input∆×input∆>0)-(1-*input∆)×input∆≤0
     ∇
 
 :EndClass

@@ -8,7 +8,7 @@
     ∇ make(data∆ colnames∆)
       :Implements Constructor
       :Access Public
-      ⎕IO←0
+      (⎕IO ⎕ML)←(0 3)
       m_data←data∆
       m_colname←⊆colnames∆
       m_nrow←≢data∆
@@ -64,12 +64,6 @@
     ∇ r←frequency
       :Access Public
       r←{⍺,≢⍵}⌸m_data
-    ∇
-
-
-    ∇ r←where condition
-      :Access Public
-      r←⍬
     ∇
 
 

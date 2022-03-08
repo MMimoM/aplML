@@ -1,17 +1,26 @@
-﻿:Class MeanSquare    
-    
-    :Field Public dinput←⍬
+﻿:Class MeanSquare
 
-    ∇ r←calculate(ytrue ypred)
+    :Field Private m_dinput
+
+    ∇ __init__
+      :Implements constructor
       :Access Public
-      r←{(+/⍵*2)÷≢⍵}(ytrue-ypred)
+      (⎕IO ⎕ML)←(0 3)
+      ⎕DF'MeanSquare'
     ∇
-    
-    ∇ backward(dinput∆ ytrue);shape
+
+
+    ∇ {r}←calculate(ytrue ypred)
+      :Access Public
+      r←{(+/⍵*2)÷≢⍵}∊(ytrue-ypred)
+    ∇
+
+
+    ∇ {r}←backward(dinput∆ ytrue);shape
       :Access Public
       shape←⍴dinput∆
-      dinput←(-2×((⍪ytrue)-dinput∆)÷shape[1])÷shape[0]
+      m_dinput←(-2×((⍪ytrue)-dinput∆)÷shape[1])÷shape[0]
+      r←m_dinput
     ∇
-    
-:EndClass
 
+:EndClass

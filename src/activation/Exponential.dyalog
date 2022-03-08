@@ -1,23 +1,31 @@
 ﻿:Class Exponential
 
-    :Field Public output
-    :Field Public input
-    :Field Public dinput
+    :Field Private m_input
 
-    ∇ forward X
+    ∇ __init__
+      :Implements constructor
       :Access Public
-      input←X
-      output←*X
+      (⎕IO ⎕ML)←(0 3)
+      ⎕DF'Exponential'
     ∇
 
 
-    ∇ backward ∆dinput
+    ∇ {r}←forward input∆
       :Access Public
-      dinput←∆dinput×(*input)
+      m_input←input∆
+      r←*input∆
     ∇
 
-    ∇ r←calculate X
-      r←*X
+
+    ∇ {r}←backward dinput∆
+      :Access Public
+      r←dinput∆×(*m_input)
+    ∇
+
+
+    ∇ {r}←calculate input∆
+      :Access Public
+      r←*input∆
     ∇
 
 :EndClass

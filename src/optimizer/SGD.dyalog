@@ -1,34 +1,33 @@
 ﻿:Class SGD
 
-    :Field Public step_size
-    :Field Public decay
-    :Field Public weights
-    :Field Public biases
-    :Field Private iteration
+    :Field Private m_step_size
+    :Field Private m_decay
+    :Field Private m_iteration
 
 
     ∇ __init__(step_size∆ decay∆)
       :Implements constructor
       :Access Public
-      step_size←step_size∆
-      decay←decay∆
-      iteration←1
+      (⎕IO ⎕ML)←(0 3)
+      m_step_size←step_size∆
+      m_decay←decay∆
+      m_iteration←1
       ⎕DF'SGD'
     ∇
 
 
     ∇ step layer
       :Access Public
-      layer.weights+←-step_size×layer.dweights
-      layer.biases+←-step_size×layer.dbiases
+      layer.weights+←-m_step_size×layer.dweights
+      layer.biases+←-m_step_size×layer.dbiases
     ∇
 
 
-    ∇ updateStepSize
+    ∇ update
       :Access Public
-      :If decay>0
-          step_size×←÷1+decay×iteration
-          iteration+←1
+      :If m_decay>0
+          m_step_size×←÷1+decay×iteration
+          m_iteration+←1
       :EndIf
     ∇
 

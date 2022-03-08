@@ -1,23 +1,30 @@
 ﻿:Class Tanh
 
-    :Field Public output
-    :Field Public input
-    :Field Public dinput
+    :Field Private m_input
 
-    ∇ forward X
+    ∇ __init__
+      :Implements constructor
       :Access Public
-      input←X
-      output←7○X
+      (⎕IO ⎕ML)←(0 3)
+      ⎕DF'Tanh'
     ∇
-    
 
-    ∇ backward ∆dinput
+
+    ∇ {r}←forward input∆
       :Access Public
-      dinput←∆dinput×({(1+⍵)×1-⍵}(7○input))
+      m_input←input∆
+      r←7○input∆
     ∇
-    
 
-    ∇ r←calculate X
+
+    ∇ {r}←backward ∆dinput
+      :Access Public
+      r←∆dinput×({(1+⍵)×1-⍵}(7○m_input))
+    ∇
+
+
+    ∇ {r}←calculate X
+      :Access Public
       r←7○X
     ∇
 

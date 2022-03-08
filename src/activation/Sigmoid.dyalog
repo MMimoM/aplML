@@ -1,24 +1,31 @@
 ﻿:Class Sigmoid
 
-    :Field Public output
-    :Field Public input
-    :Field Public dinput
+    :Field Private m_input
 
-    ∇ forward X
+    ∇ __init__
+      :Implements constructor
       :Access Public
-      input←X
-      output←÷1+*-X
+      (⎕IO ⎕ML)←(0 3)
+      ⎕DF'Sigmoid'
     ∇
 
 
-    ∇ backward ∆dinput
+    ∇ {r}←forward input∆
       :Access Public
-      dinput←∆dinput×({⍵×1-⍵}(÷1+*-input))
+      m_input←input∆
+      r←÷1+*-input∆
     ∇
-    
 
-    ∇ r←calculate X
-      r←÷1+*-X
+
+    ∇ {r}←backward dinput∆
+      :Access Public
+      r←dinput∆×({⍵×1-⍵}(÷1+*-m_input))
+    ∇
+
+
+    ∇ {r}←calculate input∆
+      :Access Public
+      r←÷1+*-input∆
     ∇
 
 :EndClass
