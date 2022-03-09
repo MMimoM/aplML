@@ -122,7 +122,7 @@
       :Access Private
       :If 1<m_len
           r←m_layers[0].calculate input∆
-          iteration←0
+          iteration←1
           :While iteration<m_len
               r←m_layers[iteration].calculate r
               iteration←iteration+1
@@ -139,7 +139,6 @@
       :If 1<m_len
           r←m_layers[m_len-1].backward dinput∆
           iteration←2
-          r←m_layers[m_len-iteration].backward dinput∆
           :While 0≤m_len-iteration
               r←m_layers[m_len-iteration].backward r
               iteration←iteration+1

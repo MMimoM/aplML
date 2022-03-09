@@ -5,7 +5,8 @@
     :Field Private m_nrow
     :Field Private m_shape
     :Field Private m_data
-    :Field Private m_encoder
+    :Field Private encoder
+    :Field Private mathtools
     :Field Private logger
 
 
@@ -18,7 +19,8 @@
       m_ncol←⍴⊆m_colnames
       m_nrow←≢m_data
       m_shape←⍴m_data
-      m_encoder←#.Utils.Encoder
+      encoder←#.Utils.Encoder
+      mathtools←#.Utils.Mathtools
       logger←#.Utils.Logger
     ∇
 
@@ -32,7 +34,9 @@
       m_ncol←⍴⊆colnames∆
       m_nrow←≢data∆
       m_shape←⍴data∆
-      m_encoder←#.Utils.Encoder
+      encoder←#.Utils.Encoder
+      mathtools←#.Utils.Mathtools
+      logger←#.Utils.Logger
     ∇
 
 
@@ -262,6 +266,28 @@
     ∇
 
 
+    ⍝ Liefert die Zeilen deren >>Eintraege<< nicht Null sind.
+    ∇ r←where_not_null col∆
+      :Access Public
+      r←__where__(col∆'≠'⎕NULL)
+    ∇
+
+
+    ⍝ Liefert die Zeilen deren >>Eintraege<< Null sind.
+    ∇ r←where_null col∆
+      :Access Public
+      r←__where__(col∆'='⎕NULL)
+    ∇
+    
+
+    ⍝ Liefert den Mittelwert der Spalte >>col∆<<. >>Null-Eintraege<< werden ignoriert.
+    ∇ r←mean col∆;rows
+      :Access Public
+      rows←where_not_null col∆
+      r←mathtools.∆mean m_data[rows;col∆]
+    ∇
+
+
     ∇ r←__where__(col∆ operator value∆);rows
       :Access Private
      
@@ -279,7 +305,7 @@
           :OrIf value∆≡⎕NULL
               r←⍸∊value∆(⍎operator)m_data[;col∆]
           :Else
-              rows←where(col∆'≠'⎕NULL)
+              rows←__where__(col∆'≠'⎕NULL)
               r←⍸value∆(⍎operator)m_data[rows;col∆]
           :EndIf
       :ElseIf (⊂value∆)∊m_data[;col∆]
