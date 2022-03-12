@@ -26,7 +26,7 @@
     ∇ expected assertSame actual
       :Access Public Shared
       :If expected≢actual
-          logError'expected: ',(⍕expected),'',(⍕actual)
+          logError'expected: ',(,⍕expected),'',(,⍕actual)
       :EndIf
     ∇
 

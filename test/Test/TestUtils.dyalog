@@ -1,21 +1,4 @@
-﻿:Class TestMathtools : ATest
-
-
-    ∇ test_∆diagonalize;expected
-      :Access Public Shared
-      expected←⊃(1 0 0)(0 7 0)(0 0 3)
-      expected assertSame #.Utils.Mathtools.∆diagonalize 1 7 3
-    ∇
-
-    ∇ test_∆identityMatrix;expected
-      :Access Public Shared
-      expected←1 1⍴1
-      expected assertSame #.Utils.Mathtools.∆identityMatrix 1
-      expected←⊃(1 0)(0 1)
-      expected assertSame #.Utils.Mathtools.∆identityMatrix 2
-      expected←⊃(1 0 0)(0 1 0)
-      expected assertSame #.Utils.Mathtools.∆identityMatrix 3
-    ∇
+﻿:Class TestUtils : ATest
 
     ∇ test_∆round_negativ
       :Access Public Shared

@@ -111,7 +111,7 @@
       :EndIf
      
       cols∆←__set_cindex__ cols∆
-      ⍕(m_colnames[cols∆],[0]m_data[rows∆;cols∆])
+      m_colnames[cols∆],[0]m_data[rows∆;cols∆]
     ∇
 
 
@@ -131,7 +131,7 @@
     ⍝ Printed die ersten >>nrows∆<< des Dataframes
     ∇ head nrows∆
       :Access Public
-      ⍕(m_colnames,[0]m_data)[⍳(nrows∆+1);]
+      (m_colnames,[0]m_data)[⍳(nrows∆+1);]
     ∇
 
 
@@ -278,7 +278,7 @@
       :Access Public
       r←__where__(col∆'='⎕NULL)
     ∇
-    
+
 
     ⍝ Liefert den Mittelwert der Spalte >>col∆<<. >>Null-Eintraege<< werden ignoriert.
     ∇ r←mean col∆;rows
@@ -288,30 +288,38 @@
     ∇
 
 
+    ⍝ Liefert den Median der Spalte >>col∆<<. >>Null-Eintraege<< werden ignoriert.
+    ∇ r←median col∆;rows
+      :Access Public
+      rows←where_not_null col∆
+      r←mathtools.∆median m_data[rows;col∆]
+    ∇
+
+
     ∇ r←__where__(col∆ operator value∆);rows
       :Access Private
-     
-      :If ⍬≡value∆
-          value∆←(⍎operator)/∊m_data[;col∆]
-      :EndIf
-     
-      :If 1<≢operator
-          logger.logError'Only one operator is allowed'
-      :EndIf
-     
       col∆←__set_cindex__ col∆
-      :If ~__is_char__ value∆
+     
+      ⍝ Suche nach Minimum oder Maximum
+      :If ⍬≡value∆
           :If ~⎕NULL∊m_data[;col∆]
-          :OrIf value∆≡⎕NULL
-              r←⍸∊value∆(⍎operator)m_data[;col∆]
+              value∆←(⍎operator)/∊m_data[;col∆]
           :Else
               rows←__where__(col∆'≠'⎕NULL)
-              r←⍸value∆(⍎operator)m_data[rows;col∆]
+              value∆←(⍎operator)/∊m_data[rows;col∆]
+              r←(∊value∆⍷m_data[rows;col∆])/rows
+              :Return
           :EndIf
-      :ElseIf (⊂value∆)∊m_data[;col∆]
-          r←⍸∊(⊂value∆)≡¨m_data[;col∆]
+      :EndIf
+     
+      ⍝ In diesem Block werden die Zeilenindices ermittelt durch Anwendung des Operators welcher im Argument uebergeben wurde.
+      :If ~⎕NULL∊m_data[;col∆]
+      :OrIf value∆≡⎕NULL
+          r←⍸∊value∆(⍎operator)m_data[;col∆]
       :Else
-          logger.logError'Attribute is Unknown'
+          ⍝ Der Operator wird nur auf die Zeilen angewendet welche nicht ⎕NULL sind. ⎕NULL'en werden somit prinzipiell ignoriert.
+          rows←__where__(col∆'≠'⎕NULL)
+          r←(∊value∆(⍎operator)m_data[rows;col∆])/rows
       :EndIf
     ∇
 

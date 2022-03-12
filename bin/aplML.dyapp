@@ -1,0 +1,3 @@
+Target #
+Run Startup←⎕SE.SALT.Load 'C:\Users\Mehya\OneDrive\repos\aplML\bin\Startup.dyalog'
+Run Startup.link

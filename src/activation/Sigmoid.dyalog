@@ -1,6 +1,6 @@
 ﻿:Class Sigmoid
 
-    :Field Private m_input
+    :Field Private m_output
 
     ∇ __init__
       :Implements constructor
@@ -12,14 +12,14 @@
 
     ∇ {r}←forward input∆
       :Access Public
-      m_input←input∆
-      r←÷1+*-input∆
+      m_output←÷1+*-input∆
+      r←m_output
     ∇
 
 
     ∇ {r}←backward dinput∆
       :Access Public
-      r←dinput∆×({⍵×1-⍵}(÷1+*-m_input))
+      r←dinput∆×({⍵×1-⍵}(÷1+*-m_output))
     ∇
 
 

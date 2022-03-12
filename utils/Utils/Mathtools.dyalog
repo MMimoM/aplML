@@ -30,21 +30,31 @@
       ∆identityMatrix←{
           ⍵ ⍵⍴(⍵*2)⍴1,⍵⍴0
       }
-      
-      
+
+
       ⍝      ∆mean 1 2 3
-      ⍝ (1+2+3)÷3=2
+      ⍝ 2
       ∆mean←{
           +/⍵÷≢⍵
       }
       
+      ⍝ Standardabweichung
       ⍝     ∆std 1 4 4
-      ⍝ mean←2 ⋄ 1.5=0.5÷⍨(1-2)+(4-2)+(4-2)
+      ⍝ 0
       ∆std←{
-         mean←∆mean ⍵
-         square←(⍵-mean)*2
-         (∆mean square)*0.5 
-      }     
+          mean←∆mean ⍵
+          square←(⍵-mean)*2
+          (∆mean square)*0.5
+      }
+
+      ⍝    ∆median 6 3 7 2
+      ⍝ 4.5
+      ∆median←{
+          v←⍵[⍋⍵]
+          p1←(2÷⍨≢⍵)
+          p2←⌊p1
+          p1≠p2:v[p2]
+          p1=p2:2÷⍨+/v[(p2-1),p2]
+      }
 
 :EndNamespace
-
