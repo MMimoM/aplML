@@ -183,14 +183,14 @@
     ⍝ Liefert den Schnitt zweier Vektoren bestehend aus Zeilenindices
     ∇ {r}←rows1∆ and rows2∆
       :Access Public
-      r←rows1∆∩rows2∆
+      r←{⍵[⍋⍵]}rows1∆∩rows2∆
     ∇
 
 
     ⍝ Liefert die Vereinigung zweier Vektoren bestehend aus Zeilenindices
     ∇ {r}←rows1∆ or rows2∆
       :Access Public
-      r←rows1∆∪rows2∆
+      r←{⍵[⍋⍵]}rows1∆∪rows2∆
     ∇
 
 
@@ -279,20 +279,29 @@
       r←__where__(col∆'='⎕NULL)
     ∇
 
+    ⍝ Liefert die Zeilen der sortierten Spalte
+    ∇ r←sort col∆
+      :Access Public
+      col∆←__set_cindex__ col∆
+      r←⍋m_data[;col∆]
+    ∇
+
 
     ⍝ Liefert den Mittelwert der Spalte >>col∆<<. >>Null-Eintraege<< werden ignoriert.
     ∇ r←mean col∆;rows
       :Access Public
+      col∆←__set_cindex__ col∆
       rows←where_not_null col∆
-      r←mathtools.∆mean m_data[rows;col∆]
+      r←mathtools.∆mean ∊m_data[rows;col∆]
     ∇
 
 
     ⍝ Liefert den Median der Spalte >>col∆<<. >>Null-Eintraege<< werden ignoriert.
     ∇ r←median col∆;rows
       :Access Public
+      col∆←__set_cindex__ col∆
       rows←where_not_null col∆
-      r←mathtools.∆median m_data[rows;col∆]
+      r←mathtools.∆median ∊m_data[rows;col∆]
     ∇
 
 
@@ -315,11 +324,11 @@
       ⍝ In diesem Block werden die Zeilenindices ermittelt durch Anwendung des Operators welcher im Argument uebergeben wurde.
       :If ~⎕NULL∊m_data[;col∆]
       :OrIf value∆≡⎕NULL
-          r←⍸∊value∆(⍎operator)m_data[;col∆]
+          r←⍸∊m_data[;col∆](⍎operator)value∆
       :Else
           ⍝ Der Operator wird nur auf die Zeilen angewendet welche nicht ⎕NULL sind. ⎕NULL'en werden somit prinzipiell ignoriert.
           rows←__where__(col∆'≠'⎕NULL)
-          r←(∊value∆(⍎operator)m_data[rows;col∆])/rows
+          r←(∊m_data[rows;col∆](⍎operator)value∆)/rows
       :EndIf
     ∇
 

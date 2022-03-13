@@ -1,7 +1,7 @@
 ﻿:Class ATest
 ⍝ A simple Testclass: run all 'test_*'-Methoden
 
-    :Field Public Shared LOG_INFO←0
+    :Field Public Shared LOG_INFO←1
     :Field Public Shared LOG_WARN←1
     :Field Public Shared SEP←' | '
 
@@ -26,7 +26,7 @@
     ∇ expected assertSame actual
       :Access Public Shared
       :If expected≢actual
-          logError'expected: ',(,⍕expected),'',(,⍕actual)
+          logError'expected: ',(,⍕expected),' actual: ',(,⍕actual)
       :EndIf
     ∇
 
