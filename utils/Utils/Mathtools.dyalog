@@ -37,7 +37,7 @@
       ∆mean←{
           +/⍵÷≢⍵
       }
-      
+
       ⍝ Standardabweichung
       ⍝     ∆std 1 4 4
       ⍝ 0
@@ -55,6 +55,15 @@
           p2←⌊p1
           p1≠p2:v[p2]
           p1=p2:2÷⍨+/v[(p2-1),p2]
+      }
+
+
+      ⍝ Drop multiple blanks: From https://dfns.dyalog.com/c_dmb.htm
+      ∆dmb←{                                       ⍝ Drop Multiple Blanks.
+          ⍺←' ' ⋄ 1<|≡⍵:(⊂⍺)∇¨⍵                    ⍝ nested?
+          2<⍴⍴⍵:(¯1↓⍴⍵){(⍺,1↓⍴⍵)⍴⍵}⍺ ∇,[¯1↓⍳⍴⍴⍵]⍵  ⍝ array
+          2>⍴⍴⍵:(2∨/(~⍵∊⍺),1)/⍵                    ⍝ vector
+          (2∨/(,∨⌿~⍵∊⍺),1)/⍵                       ⍝ matrix
       }
 
 :EndNamespace

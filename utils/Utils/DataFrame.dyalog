@@ -3,6 +3,7 @@
     :Field Private m_colnames
     :Field Private m_ncol
     :Field Private m_nrow
+    :Field Private m_rows
     :Field Private m_shape
     :Field Private m_data
     :Field Private encoder
@@ -18,6 +19,7 @@
       m_colnames←⊆data∆[0;]
       m_ncol←⍴⊆m_colnames
       m_nrow←≢m_data
+      m_rows←⍳m_nrow
       m_shape←⍴m_data
       encoder←#.Utils.Encoder
       mathtools←#.Utils.Mathtools
@@ -28,11 +30,15 @@
     ∇ make2(data∆ colnames∆)
       :Implements Constructor
       :Access Public
-      ⎕IO←0
+      (⎕IO ⎕ML)←(0 3)
+      :If ⍬≡colnames∆
+          colnames∆←{'X',(⍕⍵)}¨⍳(1↓data∆)
+      :EndIf
       m_data←data∆
       m_colnames←⊆colnames∆
       m_ncol←⍴⊆colnames∆
       m_nrow←≢data∆
+      m_rows←⍳m_nrow
       m_shape←⍴data∆
       encoder←#.Utils.Encoder
       mathtools←#.Utils.Mathtools
@@ -54,6 +60,14 @@
     :Access Public
         ∇ r←get
           r←m_nrow
+        ∇
+    :Endproperty
+
+    ⍝ Zeilen des Dataframes
+    :Property rows
+    :Access Public
+        ∇ r←get
+          r←m_rows
         ∇
     :Endproperty
 
@@ -81,7 +95,7 @@
       :Access Public
      
       :If 900⌶⍬
-          cols∆←colnames
+          cols∆←m_colnames
       :EndIf
      
       cols∆←__set_cindex__ cols∆
@@ -94,7 +108,7 @@
       :Access Public
      
       :If 900⌶⍬
-          cols∆←colnames
+          cols∆←m_colnames
       :EndIf
      
       cols∆←__set_cindex__ cols∆
@@ -107,7 +121,7 @@
       :Access Public
      
       :If 900⌶⍬
-          cols∆←colnames
+          cols∆←m_colnames
       :EndIf
      
       cols∆←__set_cindex__ cols∆
@@ -120,11 +134,52 @@
       :Access Public
      
       :If 900⌶⍬
-          cols∆←colnames
+          cols∆←m_colnames
       :EndIf
      
       cols∆←__set_cindex__ cols∆
       m_data[rows∆;cols∆]←values
+    ∇
+
+
+    ⍝ Entfernt die vorgegebenen Zeilen >>rows∆<< aus den Daten
+    ∇ rdrop rows∆;cols∆
+      :Access Public
+      cols∆←cindex m_colnames
+     
+      ⍝ Ueberschreibe die Daten
+      m_data←m_data[m_rows~rows∆;cols∆]
+     
+      ⍝ Reduziere die Anzahl der Zeilen
+      m_nrow←m_nrow-≢rows∆
+     
+      ⍝ Reset der Zeilenindizes
+      m_rows←⍳m_nrow
+     
+      ⍝ Ueberschreibe die Dimension der Daten
+      m_shape←⍴m_data
+    ∇
+
+
+    ⍝ Entfernt die vorgegebenen Spalten >>cols∆<< aus den Daten
+    ∇ cdrop cols∆
+      :Access Public
+      cols∆←__set_cindex__ cols∆
+     
+      ⍝ Entferne die Spaltennamen
+      m_colnames←m_colnames~m_colnames[cols∆]
+     
+      ⍝ Entferne die Spaltenindizes
+      cols∆←(⍳≢m_colnames)~cols∆
+     
+      ⍝ Ueberschreibe Daten
+      m_data←m_data[m_rows;cols∆]
+     
+      ⍝ Ueberschreibe die Anzahl Spalten
+      m_ncol←≢m_colnames
+     
+      ⍝ Ueberschreibe die Dimension der Daten
+      m_shape←⍴m_data
     ∇
 
 
@@ -147,12 +202,14 @@
       :Access Public
       m_data,←columns∆
       m_colnames,←colnames∆
+      __update__ m_data m_colnames
     ∇
 
     ⍝ Anhaengen weiterer Zeilen
     ∇ rbind row
       :Access Public
       m_data,←[0]row
+      __update__ m_data m_colnames
     ∇
 
 
@@ -292,7 +349,7 @@
       :Access Public
       col∆←__set_cindex__ col∆
       rows←where_not_null col∆
-      r←mathtools.∆mean ∊m_data[rows;col∆]
+      r←mathtools.∆mean∊m_data[rows;col∆]
     ∇
 
 
@@ -301,7 +358,7 @@
       :Access Public
       col∆←__set_cindex__ col∆
       rows←where_not_null col∆
-      r←mathtools.∆median ∊m_data[rows;col∆]
+      r←mathtools.∆median∊m_data[rows;col∆]
     ∇
 
 
@@ -355,4 +412,13 @@
     ∇
 
 
+    ∇ __update__(data∆ colnames∆)
+      :Access Private
+      m_ncol←⍴⊆colnames∆
+      m_nrow←≢data∆
+      m_rows←⍳m_nrow
+      m_shape←⍴data∆
+    ∇
+
 :EndClass
+

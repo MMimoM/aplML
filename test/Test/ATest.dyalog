@@ -5,7 +5,6 @@
     :Field Public Shared LOG_WARN←1
     :Field Public Shared SEP←' | '
 
-    
     ⍝ @rparm candidat
     ⍝     a subclass of ATest
     ∇ run candidat;method
